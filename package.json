@@ -1,0 +1,48 @@
+{
+	"name": "figma-skeleton-generator",
+	"version": "1.0.0",
+	"description": "Generator random skeleton placeholders",
+	"license": "ISC",
+	"scripts": {
+		"build": "webpack --mode=production",
+		"build:watch": "webpack --mode=development --watch",
+		"prettier:format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,json}' "
+	},
+	"dependencies": {
+		"@chakra-ui/react": "^1.6.8",
+		"@ctrl/tinycolor": "^3.4.0",
+		"@emotion/react": "^11.4.1",
+		"@emotion/styled": "^11.3.0",
+		"framer-motion": "^4.1.17",
+		"react": "^17.0.2",
+		"react-dom": "^17.0.2"
+	},
+	"devDependencies": {
+		"@figma/plugin-typings": "^1.24.0",
+		"@types/react": "^17.0.11",
+		"@types/react-dom": "^17.0.7",
+		"css-loader": "^5.0.1",
+		"html-webpack-inline-source-plugin": "^0.0.10",
+		"html-webpack-plugin": "^3.2.0",
+		"husky": "^4.3.0",
+		"lint-staged": "^10.5.1",
+		"prettier": "^2.3.1",
+		"style-loader": "^2.0.0",
+		"ts-loader": "^8.0.11",
+		"typescript": "^4.1.2",
+		"url-loader": "^4.1.1",
+		"webpack": "^4.41.4",
+		"webpack-cli": "^3.3.6"
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged"
+		}
+	},
+	"lint-staged": {
+		"src/**/*.{js,jsx,ts,tsx,css,json}": [
+			"prettier --write",
+			"git add"
+		]
+	}
+}
