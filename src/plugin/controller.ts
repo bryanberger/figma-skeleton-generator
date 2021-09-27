@@ -43,7 +43,7 @@ figma.ui.onmessage = (msg) => {
         node = createManyMembers();
     }
 
-    node.x = figma.viewport.center.x;
+    node.x = figma.viewport.center.x - (node.width >> 1);
     node.y = figma.viewport.center.y;
 
     currentSelection.appendChild(node);
