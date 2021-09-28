@@ -31,6 +31,12 @@ const App = ({}) => {
             case 'member-list':
                 parent.postMessage({pluginMessage: {type: 'create-member-list', count, theme}}, '*');
                 break;
+            case 'channel-list-text':
+                parent.postMessage({pluginMessage: {type: 'create-channel-list', count, theme, channelType: 'text'}}, '*');
+                break;
+            case 'channel-list-voice':
+                parent.postMessage({pluginMessage: {type: 'create-channel-list', count, theme, channelType: 'voice'}}, '*');
+                break;
         }
     };
 
@@ -49,6 +55,8 @@ const App = ({}) => {
                             Messages
                         </option>
                         <option value="server-list">Server List</option>
+                        <option value="channel-list-text">Channel List (text)</option>
+                        <option value="channel-list-voice">Channel List (voice)</option>
                         <option value="member-list">Member List</option>
                     </Select>
                 </FormControl>

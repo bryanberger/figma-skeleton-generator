@@ -1,4 +1,5 @@
 import {random as randomColor} from '@ctrl/tinycolor';
+import {textIcon, groupIcon, voiceIcon} from './icons';
 
 type TextRowType = {
     frame: FrameNode;
@@ -14,6 +15,7 @@ const themeColorMap = {
 
 let currentSelection: any;
 let theme: 'dark' | 'light';
+let channelType: 'text' | 'voice';
 let themeColors: RGB;
 let totalCount: number;
 let showEmbed: boolean;
@@ -24,6 +26,7 @@ figma.ui.onmessage = (msg) => {
     theme = msg.theme;
     totalCount = msg.count;
     showEmbed = msg.showEmbed;
+    channelType = msg.channelType;
     themeColors = themeColorMap[theme];
 
     // Store selection or currentPage
@@ -41,6 +44,8 @@ figma.ui.onmessage = (msg) => {
         node = createManyServers();
     } else if (msg.type === 'create-member-list') {
         node = createManyMembers();
+    } else if (msg.type === 'create-channel-list') {
+        node = createManyChannels();
     }
 
     node.x = figma.viewport.center.x - (node.width >> 1);
@@ -228,6 +233,65 @@ const createManyMembers = () => {
     // Create a set of Messages
     for (let i = 0; i < totalCount; i++) {
         frame.appendChild(createSingleMember());
+    }
+
+    return frame;
+};
+
+const createSingleChannel = () => {
+    const frame = figma.createFrame();
+    frame.name = 'Channel';
+    frame.counterAxisSizingMode = 'AUTO';
+    frame.counterAxisAlignItems = 'CENTER';
+    frame.fills = [];
+    frame.itemSpacing = 8;
+    frame.layoutMode = 'HORIZONTAL';
+    frame.paddingLeft = 16;
+
+    const icon = figma.createNodeFromSvg(channelType === 'text' ? textIcon : voiceIcon);
+    const username = createUsername();
+    username.fills = [{type: 'SOLID', color: themeColors, opacity: 0.09}]; // overwrite opacity
+
+    frame.appendChild(icon);
+    frame.appendChild(username);
+
+    return frame;
+};
+
+const createSingleChannelGroup = () => {
+    const frame = figma.createFrame();
+    frame.name = 'Channel Group';
+    frame.counterAxisSizingMode = 'AUTO';
+    frame.counterAxisAlignItems = 'CENTER';
+    frame.fills = [];
+    frame.itemSpacing = 8;
+    frame.layoutMode = 'HORIZONTAL';
+
+    const icon = figma.createNodeFromSvg(groupIcon);
+    const channelName = createUsername();
+    channelName.name = 'Channel Name';
+
+    frame.appendChild(icon);
+    frame.appendChild(channelName);
+
+    return frame;
+};
+
+const createManyChannels = () => {
+    const frame = figma.createFrame();
+    frame.name = 'Channels';
+    frame.counterAxisSizingMode = 'AUTO';
+    frame.fills = [];
+    frame.itemSpacing = 16;
+    frame.layoutMode = 'VERTICAL';
+
+    // Create a Channel Group
+    const channelGroup = createSingleChannelGroup();
+    frame.appendChild(channelGroup);
+
+    // Create a set of Channels, indented from the left
+    for (let i = 0; i < totalCount; i++) {
+        frame.appendChild(createSingleChannel());
     }
 
     return frame;
