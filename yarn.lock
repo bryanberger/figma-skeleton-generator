@@ -727,10 +727,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
-"@figma/plugin-typings@^1.24.0":
-  version "1.24.0"
-  resolved "https://registry.yarnpkg.com/@figma/plugin-typings/-/plugin-typings-1.24.0.tgz#4e57fa6acfbab24992acde8ca5355b76f2a5e947"
-  integrity sha512-KpEq/C1jMtNiO5yO1nVLn/cQhz4AHPzBfokwd93Z/4DYqJ2JR8z5jrGTt3SMNi2m0KsjND/D3wpxSofBm1WaBA==
+"@figma/plugin-typings@^1.35.0":
+  version "1.35.0"
+  resolved "https://registry.yarnpkg.com/@figma/plugin-typings/-/plugin-typings-1.35.0.tgz#cad8958577f9a0a18e001f6d8f04b146a0319901"
+  integrity sha512-dqTKb8ZS4MutR8SxaEp0KtiX7yAeeivX6R8it1rP9fQKDZVbarGGk4KRKFQua3+F1MjF1ayX5vAFe0NyudNVXg==
 
 "@popperjs/core@2.4.4":
   version "2.4.4"
