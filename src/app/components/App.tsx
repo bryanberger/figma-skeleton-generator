@@ -40,8 +40,13 @@ const App = ({}) => {
         }
     };
 
+    const onEasterEggClick = () => {
+        parent.postMessage({pluginMessage: {type: 'create-easter-egg', theme}}, '*');
+    };
+
     return (
         <Flex w="100%" h="100%" p={4}>
+            <Button opacity="0" size="xs" pos="absolute" right="0" top="0" onClick={onEasterEggClick}></Button>
             <VStack w="100%" spacing={6} align="stretch">
                 <FormControl>
                     <FormLabel>Type</FormLabel>

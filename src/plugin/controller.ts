@@ -1,12 +1,11 @@
 import {random as randomColor} from '@ctrl/tinycolor';
+import {easterEggText} from './easteregg';
 import {textIcon, groupIcon, voiceIcon} from './icons';
 
 type TextRowType = {
     frame: FrameNode;
     count: number;
 };
-
-figma.showUI(__html__, {height: 378});
 
 const themeColorMap = {
     dark: {r: 1, g: 1, b: 1},
@@ -19,15 +18,21 @@ let channelType: 'text' | 'voice';
 let themeColors: RGB;
 let totalCount: number;
 let showEmbed: boolean;
-let node: FrameNode;
+let node: FrameNode | TextNode;
 
-figma.ui.onmessage = (msg) => {
+figma.showUI(__html__, {height: 378});
+
+figma.ui.onmessage = async (msg) => {
     // Tmp variables
     theme = msg.theme;
     totalCount = msg.count;
     showEmbed = msg.showEmbed;
     channelType = msg.channelType;
     themeColors = themeColorMap[theme];
+
+    // Preload Courier
+    await figma.loadFontAsync({family: 'Courier', style: 'Regular'});
+    await figma.loadFontAsync({family: 'Roboto', style: 'Regular'}); // not sure why, but this is necessary(?)
 
     // Store selection or currentPage
     if (figma.currentPage.selection.length !== 0) {
@@ -46,6 +51,17 @@ figma.ui.onmessage = (msg) => {
         node = createManyMembers();
     } else if (msg.type === 'create-channel-list') {
         node = createManyChannels();
+    } else if (msg.type === 'create-easter-egg') {
+        node = createEasterEgg();
+
+        // Focus on it
+        node.x = figma.viewport.center.x - (node.width >> 1);
+        node.y = figma.viewport.center.y - (node.height >> 1);
+    
+        currentSelection.appendChild(node);
+        figma.viewport.scrollAndZoomIntoView(currentSelection);
+
+        return;
     }
 
     node.x = figma.viewport.center.x - (node.width >> 1);
@@ -295,6 +311,17 @@ const createManyChannels = () => {
     }
 
     return frame;
+};
+
+const createEasterEgg = () => {
+    const text = figma.createText();
+    text.name = 'Skeleton Easter Egg';
+    text.fontSize = 16;
+    text.fontName = {family: 'Courier', style: 'Regular'};
+    text.characters = easterEggText;
+    text.fills = [{type: 'SOLID', color: themeColors, opacity: 1}];
+
+    return text;
 };
 
 const getRandServerColor = () => {
