@@ -20,6 +20,15 @@ const App = ({}) => {
     const [count, setCount] = React.useState(3);
     const [showEmbed, setShowEmbed] = React.useState(false);
 
+    React.useEffect(() => {
+        window.onmessage = (event) => {
+            const {type, theme} = event.data.pluginMessage;
+            if (type === 'default-theme') {
+                setTheme(theme);
+            }
+        };
+    }, []);
+
     const onCreate = () => {
         switch (msgType) {
             case 'messages':
@@ -32,10 +41,16 @@ const App = ({}) => {
                 parent.postMessage({pluginMessage: {type: 'create-member-list', count, theme}}, '*');
                 break;
             case 'channel-list-text':
-                parent.postMessage({pluginMessage: {type: 'create-channel-list', count, theme, channelType: 'text'}}, '*');
+                parent.postMessage(
+                    {pluginMessage: {type: 'create-channel-list', count, theme, channelType: 'text'}},
+                    '*'
+                );
                 break;
             case 'channel-list-voice':
-                parent.postMessage({pluginMessage: {type: 'create-channel-list', count, theme, channelType: 'voice'}}, '*');
+                parent.postMessage(
+                    {pluginMessage: {type: 'create-channel-list', count, theme, channelType: 'voice'}},
+                    '*'
+                );
                 break;
         }
     };

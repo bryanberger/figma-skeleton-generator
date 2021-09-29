@@ -7,20 +7,26 @@ type TextRowType = {
     count: number;
 };
 
+type Theme = 'dark' | 'light';
+type ChannelType = 'text' | 'voice';
+
 const themeColorMap = {
     dark: {r: 1, g: 1, b: 1},
     light: {r: 0, g: 0, b: 0},
 };
 
 let currentSelection: any;
-let theme: 'dark' | 'light';
-let channelType: 'text' | 'voice';
+let theme: Theme;
+let channelType: ChannelType;
 let themeColors: RGB;
 let totalCount: number;
 let showEmbed: boolean;
 let node: FrameNode | TextNode;
 
+const defaultTheme = figma.editorType === 'figjam' ? 'light' : 'dark'
+
 figma.showUI(__html__, {height: 378});
+figma.ui.postMessage({type: 'default-theme', theme: defaultTheme});
 
 figma.ui.onmessage = async (msg) => {
     // Tmp variables
@@ -32,7 +38,10 @@ figma.ui.onmessage = async (msg) => {
 
     // Preload Courier
     await figma.loadFontAsync({family: 'Courier', style: 'Regular'});
-    await figma.loadFontAsync({family: 'Roboto', style: 'Regular'}); // not sure why, but this is necessary(?)
+
+    // Not sure why exactly, but it is necessary to load these both for Figma/FigJam(?)
+    await figma.loadFontAsync({family: 'Inter', style: 'Medium'});
+    await figma.loadFontAsync({family: 'Roboto', style: 'Regular'});
 
     // Store selection or currentPage
     if (figma.currentPage.selection.length !== 0) {
@@ -57,9 +66,9 @@ figma.ui.onmessage = async (msg) => {
         // Focus on it
         node.x = figma.viewport.center.x - (node.width >> 1);
         node.y = figma.viewport.center.y - (node.height >> 1);
-    
+
         currentSelection.appendChild(node);
-        figma.viewport.scrollAndZoomIntoView(currentSelection);
+        figma.viewport.scrollAndZoomIntoView([node]);
 
         return;
     }
