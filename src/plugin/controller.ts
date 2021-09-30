@@ -36,8 +36,8 @@ figma.ui.onmessage = async (msg) => {
     channelType = msg.channelType;
     themeColors = themeColorMap[theme];
 
-    // Preload Courier
-    await figma.loadFontAsync({family: 'Courier', style: 'Regular'});
+    // Preload Courier New (macOS/Windows supported)
+    await figma.loadFontAsync({family: 'Courier New', style: 'Regular'});
 
     // Not sure why exactly, but it is necessary to load these both for Figma/FigJam(?)
     await figma.loadFontAsync({family: 'Inter', style: 'Medium'});
@@ -326,7 +326,7 @@ const createEasterEgg = () => {
     const text = figma.createText();
     text.name = 'Skeleton Easter Egg';
     text.fontSize = 16;
-    text.fontName = {family: 'Courier', style: 'Regular'};
+    text.fontName = {family: 'Courier New', style: 'Regular'};
     text.characters = easterEggText;
     text.fills = [{type: 'SOLID', color: themeColors, opacity: 1}];
 
