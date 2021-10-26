@@ -1,4 +1,4 @@
-# Project Scaffold Generator
+# Figma Skeleton Generator
 
 ![banner](.github/banner.png?raw=true)
 
